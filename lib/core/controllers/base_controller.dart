@@ -67,9 +67,5 @@ abstract class BaseController extends GetxController {
     }
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
 }
 

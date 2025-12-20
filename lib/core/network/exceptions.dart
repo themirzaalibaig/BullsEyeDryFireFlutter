@@ -13,8 +13,7 @@ class NetworkException extends AppException {
 }
 
 class ServerException extends AppException {
-  ServerException({required String message, int? statusCode})
-      : super(message: message, statusCode: statusCode);
+  ServerException({required super.message, super.statusCode});
 }
 
 class CancelException extends AppException {

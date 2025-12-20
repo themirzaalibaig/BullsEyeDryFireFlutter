@@ -15,7 +15,6 @@ class AppTheme {
         secondary: AppColors.secondary,
         tertiary: AppColors.tertiary,
         surface: AppColors.quaternary,
-        background: AppColors.quinary,
         error: AppColors.secondary,
       ),
       appBarTheme: AppBarTheme(
@@ -88,7 +87,6 @@ class AppTheme {
         secondary: AppColors.secondary,
         tertiary: AppColors.quaternary,
         surface: AppColors.denary,
-        background: AppColors.tertiary,
         error: AppColors.secondary,
       ),
       appBarTheme: AppBarTheme(

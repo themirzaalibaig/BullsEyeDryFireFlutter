@@ -36,7 +36,7 @@ class SecureStorageService extends GetxService {
       await _storage.delete(key: key);
     } catch (e) {
       AppLogger.error('Failed to delete secure storage', e);
-      return null;
+      return;
     }
   }
 
