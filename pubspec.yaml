@@ -43,7 +43,7 @@ dependencies:
   # Utils
   flutter_svg: ^2.0.10+1
   cached_network_image: ^3.3.1
-  intl: ^0.19.0
+  intl: ^0.20.2
   shared_preferences: ^2.2.2
   connectivity_plus: ^6.0.5
   logger: ^2.4.0
@@ -67,6 +67,9 @@ dependencies:
 
   # Date/Time
   timeago: ^3.6.1
+
+  # Localization
+  easy_localization: ^3.0.3
 
 dev_dependencies:
   flutter_test:
@@ -97,6 +100,7 @@ flutter:
   assets:
     - lib/assets/images/
     - lib/assets/icons/
+    - assets/translations/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

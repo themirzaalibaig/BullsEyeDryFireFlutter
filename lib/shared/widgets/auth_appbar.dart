@@ -16,12 +16,18 @@ class AuthAppBar extends StatelessWidget implements PreferredSizeWidget {
         onPressed: () => Navigator.of(context).pop(),
       ),
       elevation: 0,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Theme.of(context).primaryColor,
       title: null,
       actions: [
         TextButton(
           onPressed: () => Get.offNamed(AppConstants.homeRoute),
-          child: const Text('Continue as Guest'),
+          style: TextButton.styleFrom(
+            foregroundColor: Theme.of(context).colorScheme.tertiary,
+          ),
+          child: const Text(
+            'Continue as Guest',
+            style: TextStyle(decoration: TextDecoration.underline),
+          ),
         ),
         const SizedBox(width: 8),
       ],

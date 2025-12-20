@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'core/routes/app_pages.dart';
 import 'core/theme/app_theme.dart';
 import 'core/constants/app_constants.dart';
@@ -11,10 +12,13 @@ import 'core/services/permission_service.dart';
 import 'core/services/connectivity_service.dart';
 import 'core/services/image_picker_service.dart';
 import 'core/services/app_update_service.dart';
-import 'core/localization/app_translations.dart';
+import 'core/localization/localization_helper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Easy Localization
+  await EasyLocalization.ensureInitialized();
 
   // Initialize environment
   await AppConfig.init(Environment.dev);
@@ -27,7 +31,16 @@ void main() async {
   Get.put(ImagePickerService());
   Get.put(AppUpdateService());
 
-  runApp(const MyApp());
+  runApp(
+    EasyLocalization(
+      supportedLocales: LocalizationHelper.getSupportedLocales(),
+      path: 'assets/translations',
+      fallbackLocale: const Locale('en', 'US'),
+      startLocale: const Locale('en', 'US'),
+      useOnlyLangCode: false,
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -42,11 +55,11 @@ class MyApp extends StatelessWidget {
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         themeMode: ThemeMode.light,
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
         initialRoute: AppPages.initial,
         getPages: AppPages.routes,
-        translations: AppTranslations(),
-        locale: const Locale('en', 'US'),
-        fallbackLocale: const Locale('en', 'US'),
       ),
     );
   }
