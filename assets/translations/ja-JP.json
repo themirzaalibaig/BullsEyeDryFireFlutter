@@ -5,6 +5,13 @@
   "select_language": "言語を選択",
   "confirm": "確認",
   "app_name": "Bulls Eye Dry Fire",
-  "app_tagline": "どこでも安全に練習"
+  "app_tagline": "どこでも安全に練習",
+  "continue_with_google": "Googleで続行",
+  "signup_with_email": "メールで登録",
+  "have_account": "アカウントをお持ちですか?",
+  "login": "ログイン",
+  "forgot_password": "パスワードを忘れた場合",
+  "upgrade_to_pro": "Proにアップグレードしますか?",
+  "continue_as_guest": "ゲストとして続行"
 }
 

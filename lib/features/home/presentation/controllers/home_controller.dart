@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '../../../../core/widgets/language_selector.dart';
+import '../../../../core/constants/app_constants.dart';
 
 class HomeController extends GetxController {
   final Rx<Language?> selectedLanguage = Rx<Language?>(null);
@@ -115,8 +116,6 @@ class HomeController extends GetxController {
   }
 
   void onNextPressed() {
-    // Handle next button press
-    // You can navigate to the next screen here
-    // Get.toNamed('/next-route');
+    Get.toNamed(AppConstants.onboardingRoute);
   }
 }

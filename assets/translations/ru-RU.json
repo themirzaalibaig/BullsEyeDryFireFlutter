@@ -5,6 +5,13 @@
   "select_language": "Выбрать язык",
   "confirm": "Подтвердить",
   "app_name": "Bulls Eye Dry Fire",
-  "app_tagline": "Безопасная практика где угодно"
+  "app_tagline": "Безопасная практика где угодно",
+  "continue_with_google": "Продолжить с Google",
+  "signup_with_email": "Зарегистрироваться по email",
+  "have_account": "У вас есть аккаунт?",
+  "login": "Войти",
+  "forgot_password": "Забыли пароль?",
+  "upgrade_to_pro": "Обновить до Pro?",
+  "continue_as_guest": "Продолжить как гость"
 }
 

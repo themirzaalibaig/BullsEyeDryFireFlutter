@@ -5,6 +5,13 @@
   "select_language": "भाषा चुनें",
   "confirm": "पुष्टि करें",
   "app_name": "Bulls Eye Dry Fire",
-  "app_tagline": "कहीं भी सुरक्षित रूप से अभ्यास करें"
+  "app_tagline": "कहीं भी सुरक्षित रूप से अभ्यास करें",
+  "continue_with_google": "Google के साथ जारी रखें",
+  "signup_with_email": "अपने ईमेल से साइन अप करें",
+  "have_account": "क्या आपके पास खाता है?",
+  "login": "लॉगिन",
+  "forgot_password": "पासवर्ड भूल गए?",
+  "upgrade_to_pro": "Pro में अपग्रेड करें?",
+  "continue_as_guest": "अतिथि के रूप में जारी रखें"
 }
 

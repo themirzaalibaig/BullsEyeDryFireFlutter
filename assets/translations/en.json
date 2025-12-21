@@ -5,5 +5,12 @@
   "select_language": "Select Language",
   "confirm": "Confirm",
   "app_name": "Bulls Eye Dry Fire",
-  "app_tagline": "Safely Practice Anywhere"
+  "app_tagline": "Safely Practice Anywhere",
+  "continue_with_google": "Continue with Google",
+  "signup_with_email": "Signup with your email",
+  "have_account": "Do you have an account?",
+  "login": "Login",
+  "forgot_password": "Forgot password?",
+  "upgrade_to_pro": "Upgrade to Pro?",
+  "continue_as_guest": "Continue as Guest"
 }

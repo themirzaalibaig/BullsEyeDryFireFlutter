@@ -5,6 +5,13 @@
   "select_language": "Seleziona lingua",
   "confirm": "Conferma",
   "app_name": "Bulls Eye Dry Fire",
-  "app_tagline": "Pratica in sicurezza ovunque"
+  "app_tagline": "Pratica in sicurezza ovunque",
+  "continue_with_google": "Continua con Google",
+  "signup_with_email": "Registrati con la tua email",
+  "have_account": "Hai un account?",
+  "login": "Accedi",
+  "forgot_password": "Password dimenticata?",
+  "upgrade_to_pro": "Passa a Pro?",
+  "continue_as_guest": "Continua come ospite"
 }
 

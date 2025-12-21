@@ -5,6 +5,13 @@
   "select_language": "اختر اللغة",
   "confirm": "تأكيد",
   "app_name": "Bulls Eye Dry Fire",
-  "app_tagline": "تمرن بأمان في أي مكان"
+  "app_tagline": "تمرن بأمان في أي مكان",
+  "continue_with_google": "المتابعة مع Google",
+  "signup_with_email": "التسجيل بريدك الإلكتروني",
+  "have_account": "هل لديك حساب?",
+  "login": "تسجيل الدخول",
+  "forgot_password": "نسيت كلمة المرور?",
+  "upgrade_to_pro": "الترقية إلى Pro?",
+  "continue_as_guest": "المتابعة كضيف"
 }
 

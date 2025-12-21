@@ -5,6 +5,13 @@
   "select_language": "选择语言",
   "confirm": "确认",
   "app_name": "Bulls Eye Dry Fire",
-  "app_tagline": "随时随地安全练习"
+  "app_tagline": "随时随地安全练习",
+  "continue_with_google": "使用Google继续",
+  "signup_with_email": "使用邮箱注册",
+  "have_account": "您有账户吗?",
+  "login": "登录",
+  "forgot_password": "忘记密码?",
+  "upgrade_to_pro": "升级到Pro?",
+  "continue_as_guest": "以访客身份继续"
 }
 
