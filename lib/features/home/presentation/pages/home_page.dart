@@ -7,6 +7,7 @@ import '../../../../core/widgets/language_dropdown.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../shared/widgets/auth_welcome.dart';
 import '../controllers/home_controller.dart';
+import '../../../../core/constants/app_constants.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -46,7 +47,7 @@ class HomePage extends StatelessWidget {
                     builder: (context) => Text(
                       context.tr('choose_language'),
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 18,
                         color: AppColors.tertiary,
                         fontWeight: FontWeight.normal,
                       ),

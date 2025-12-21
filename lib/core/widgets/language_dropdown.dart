@@ -21,11 +21,8 @@ class LanguageDropdown extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         decoration: BoxDecoration(
-          color: AppColors.quaternary,
-          border: Border.all(
-            color: AppColors.tertiary,
-            width: 1,
-          ),
+          color: Colors.transparent,
+          border: Border.all(color: AppColors.tertiary, width: 1),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Row(
@@ -58,15 +55,10 @@ class LanguageDropdown extends StatelessWidget {
                 ),
               ),
             ],
-            Icon(
-              Icons.chevron_right,
-              color: AppColors.tertiary,
-              size: 24,
-            ),
+            Icon(Icons.chevron_right, color: AppColors.tertiary, size: 24),
           ],
         ),
       ),
     );
   }
 }
-

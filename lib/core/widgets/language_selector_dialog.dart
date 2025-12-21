@@ -64,9 +64,8 @@ class _LanguageSelectorDialogState extends State<LanguageSelectorDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
+      backgroundColor: AppColors.primary,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Container(
         constraints: const BoxConstraints(maxWidth: 400, maxHeight: 600),
         padding: const EdgeInsets.all(24),
@@ -77,16 +76,16 @@ class _LanguageSelectorDialogState extends State<LanguageSelectorDialog> {
             Text(
               context.tr('select_language'),
               style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    color: AppColors.tertiary,
-                    fontWeight: FontWeight.bold,
-                  ),
+                color: AppColors.tertiary,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 8),
             Text(
               context.tr('choose_language'),
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.nonary,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: AppColors.nonary),
             ),
             const SizedBox(height: 24),
 
@@ -146,9 +145,8 @@ class _LanguageItem extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary : AppColors.quaternary,
           border: Border.all(
-            color: isSelected ? AppColors.secondary : AppColors.senary,
+            color: isSelected ? AppColors.secondary : AppColors.octonary,
             width: isSelected ? 2 : 1,
           ),
           borderRadius: BorderRadius.circular(12),
@@ -162,7 +160,7 @@ class _LanguageItem extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: AppColors.senary,
+                  color: isSelected ? AppColors.secondary : AppColors.octonary,
                   width: 1,
                 ),
               ),
@@ -183,30 +181,24 @@ class _LanguageItem extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
-                      color: isSelected ? AppColors.tertiary : AppColors.tertiary,
+                      color: isSelected
+                          ? AppColors.tertiary
+                          : AppColors.tertiary,
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     language.name,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: AppColors.nonary,
-                    ),
+                    style: TextStyle(fontSize: 14, color: AppColors.nonary),
                   ),
                 ],
               ),
             ),
             if (isSelected)
-              Icon(
-                Icons.check_circle,
-                color: AppColors.secondary,
-                size: 24,
-              ),
+              Icon(Icons.check_circle, color: AppColors.secondary, size: 24),
           ],
         ),
       ),
     );
   }
 }
-

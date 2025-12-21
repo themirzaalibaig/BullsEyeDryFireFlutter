@@ -56,7 +56,7 @@ class LanguageSelector extends StatelessWidget {
               },
             ),
           );
-        }).toList(),
+        }),
       ],
     );
   }
