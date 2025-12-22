@@ -11,8 +11,7 @@ class OnboardingController extends GetxController {
   }
 
   void upgradeToPro() {
-    // Navigate to upgrade screen
-    // Get.toNamed('/upgrade');
+    Get.toNamed(AppConstants.subscriptionRoute);
   }
 
   void forgotPassword() {

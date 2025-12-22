@@ -6,9 +6,7 @@ class SecureStorageService extends GetxService {
   static SecureStorageService get to => Get.find();
 
   final FlutterSecureStorage _storage = const FlutterSecureStorage(
-    aOptions: AndroidOptions(
-      encryptedSharedPreferences: true,
-    ),
+    aOptions: AndroidOptions(encryptedSharedPreferences: true),
     iOptions: IOSOptions(
       accessibility: KeychainAccessibility.first_unlock_this_device,
     ),
@@ -57,4 +55,3 @@ class SecureStorageService extends GetxService {
     }
   }
 }
-

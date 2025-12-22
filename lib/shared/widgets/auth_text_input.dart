@@ -57,7 +57,7 @@ class AuthTextInput extends StatelessWidget {
               hintText: hint,
               hintStyle: TextStyle(
                 fontSize: 12,
-                color: AppColors.nonary.withOpacity(0.6),
+                color: AppColors.nonary.withValues(alpha: 0.6),
               ),
               filled: false,
               fillColor: Colors.transparent,

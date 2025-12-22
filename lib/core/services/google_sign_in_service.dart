@@ -75,7 +75,7 @@ class GoogleSignInService {
   static Future<bool> isSignedIn() async {
     try {
       final account = await _googleSignIn.authenticate();
-      final auth = await account.authentication;
+      final auth = account.authentication;
       return auth.idToken != null;
     } catch (e) {
       AppLogger.warning('Error checking sign-in status: $e');

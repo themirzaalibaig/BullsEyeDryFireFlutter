@@ -80,6 +80,12 @@ dependencies:
   # Country Code Picker
   country_code_picker: ^3.0.0
 
+  # Carousel
+  carousel_slider: ^5.1.1
+
+  # Stripe Payment
+  flutter_stripe: ^12.1.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -41,6 +41,7 @@ void main() async {
     serverClientId: AppConstants.googleServerClientId,
   );
 
+  
   runApp(
     EasyLocalization(
       supportedLocales: LocalizationHelper.getSupportedLocales(),

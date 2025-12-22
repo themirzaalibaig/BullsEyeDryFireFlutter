@@ -15,6 +15,13 @@ import '../../features/auth/presentation/bindings/login_binding.dart';
 import '../../features/auth/presentation/bindings/otp_verification_binding.dart';
 import '../../features/auth/presentation/bindings/forgot_password_binding.dart';
 import '../../features/auth/presentation/bindings/reset_password_binding.dart';
+import '../../features/subscription/presentation/pages/subscription_page.dart';
+import '../../features/subscription/presentation/pages/pricing_page.dart';
+import '../../features/subscription/presentation/pages/payment_method_page.dart';
+import '../../features/subscription/presentation/pages/payment_success_page.dart';
+import '../../features/subscription/presentation/bindings/subscription_binding.dart';
+import '../../features/subscription/presentation/bindings/pricing_binding.dart';
+import '../../features/subscription/presentation/bindings/payment_binding.dart';
 import '../../core/constants/app_constants.dart';
 
 class AppPages {
@@ -62,6 +69,25 @@ class AppPages {
       name: AppConstants.resetPasswordRoute,
       page: () => const ResetPasswordPage(),
       binding: ResetPasswordBinding(),
+    ),
+    GetPage(
+      name: AppConstants.subscriptionRoute,
+      page: () => const SubscriptionPage(),
+      binding: SubscriptionBinding(),
+    ),
+    GetPage(
+      name: AppConstants.pricingRoute,
+      page: () => const PricingPage(),
+      binding: PricingBinding(),
+    ),
+    GetPage(
+      name: AppConstants.paymentMethodRoute,
+      page: () => const PaymentMethodPage(),
+      binding: PaymentBinding(),
+    ),
+    GetPage(
+      name: AppConstants.paymentSuccessRoute,
+      page: () => const PaymentSuccessPage(),
     ),
   ];
 }

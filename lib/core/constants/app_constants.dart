@@ -32,6 +32,12 @@ class AppConstants {
   static const String forgotPasswordRoute = '/auth/forgot-password';
   static const String resetPasswordRoute = '/auth/reset-password';
 
+  // Subscription Routes
+  static const String subscriptionRoute = '/subscription';
+  static const String pricingRoute = '/pricing';
+  static const String paymentMethodRoute = '/payment-method';
+  static const String paymentSuccessRoute = '/payment-success';
+
   // Google Sign-In
   // Use Web Client ID (not iOS or Android client ID) for serverClientId
   // This is the Web application OAuth 2.0 Client ID from Google Cloud Console

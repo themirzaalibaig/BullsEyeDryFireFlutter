@@ -26,6 +26,22 @@ class _ErrorBoundaryState extends State<ErrorBoundary> {
     FlutterError.onError = (FlutterErrorDetails details) {
       // Call original handler first
       _originalErrorHandler?.call(details);
+      
+      // Skip rendering/layout errors - only catch actual exceptions
+      final exception = details.exception;
+      final exceptionString = exception.toString();
+      
+      // Skip rendering errors (overflow, layout issues, etc.)
+      if (exception is AssertionError ||
+          exceptionString.contains('RenderFlex overflowed') ||
+          exceptionString.contains('RenderBox') ||
+          exceptionString.contains('layout') ||
+          exceptionString.contains('rendering library')) {
+        // This is a rendering/layout error, don't catch it
+        return;
+      }
+      
+      // Only catch actual exceptions, not rendering errors
       if (mounted) {
         // Use post-frame callback to avoid build during frame error
         WidgetsBinding.instance.addPostFrameCallback((_) {
