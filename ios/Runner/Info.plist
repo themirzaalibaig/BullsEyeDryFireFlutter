@@ -8,6 +8,19 @@
 	<string>Bullseye Dryfire</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<key>GIDClientID</key>
+	<string>655125243696-e4de78t5p255ahlqe73viunbd8eu2cac.apps.googleusercontent.com</string>
+	<key>CFBundleURLTypes</key>
+		<array>
+    		<dict>
+        		<key>CFBundleTypeRole</key>
+        		<string>Editor</string>
+        		<key>CFBundleURLSchemes</key>
+        		<array>
+            		<string>com.googleusercontent.apps.655125243696-e4de78t5p255ahlqe73viunbd8eu2cac</string>
+        		</array>
+    		</dict>
+		</array>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>

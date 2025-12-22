@@ -7,7 +7,6 @@ import '../../../../core/widgets/language_dropdown.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../shared/widgets/auth_welcome.dart';
 import '../controllers/home_controller.dart';
-import '../../../../core/constants/app_constants.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

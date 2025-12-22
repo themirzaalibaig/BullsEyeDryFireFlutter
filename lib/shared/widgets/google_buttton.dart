@@ -4,11 +4,10 @@ import '../../core/constants/colors.dart';
 import '../../core/constants/app_constants.dart';
 
 class GoogleButton extends StatelessWidget {
-  const GoogleButton({super.key});
+  final VoidCallback? onPressed;
+  final bool isLoading;
 
-  void onPressed() {
-    // TODO: Implement Google sign in
-  }
+  const GoogleButton({super.key, this.onPressed, this.isLoading = false});
 
   @override
   Widget build(BuildContext context) {
@@ -16,29 +15,52 @@ class GoogleButton extends StatelessWidget {
       width: double.infinity,
       height: 56,
       child: OutlinedButton(
-        onPressed: () => onPressed(),
+        onPressed: isLoading ? null : onPressed,
         style: OutlinedButton.styleFrom(
           backgroundColor: Colors.transparent,
-          side: const BorderSide(color: AppColors.tertiary, width: 1),
+          side: BorderSide(
+            color: isLoading ? AppColors.septenary : AppColors.tertiary,
+            width: 1,
+          ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(AppConstants.googleIconPath, width: 24, height: 24),
-            const SizedBox(width: 12),
-            Text(
-              context.tr('continue_with_google'),
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: AppColors.tertiary,
+        child: isLoading
+            ? SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.tertiary),
+                ),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    AppConstants.googleIconPath,
+                    width: 24,
+                    height: 24,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Icon(
+                        Icons.g_mobiledata,
+                        size: 24,
+                        color: AppColors.tertiary,
+                      );
+                    },
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    context.tr('continue_with_google'),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.tertiary,
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
       ),
     );
   }

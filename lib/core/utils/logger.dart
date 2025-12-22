@@ -10,7 +10,7 @@ class AppLogger {
       lineLength: 120,
       colors: true,
       printEmojis: true,
-      printTime: true,
+      dateTimeFormat: DateTimeFormat.onlyTime,
     ),
   );
 
@@ -21,4 +21,3 @@ class AppLogger {
     _logger.e(message, error: error, stackTrace: stackTrace);
   }
 }
-

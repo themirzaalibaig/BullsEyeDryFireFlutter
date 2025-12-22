@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "655125243696",
+    "project_id": "bullseye-dryfire",
+    "storage_bucket": "bullseye-dryfire.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:655125243696:android:0ce47a36d99cec18e70af5",
+        "android_client_info": {
+          "package_name": "com.example.bullseye_dryfire"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "655125243696-fp6sj7oes469padh6oe0k0vdvduo9i0k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bullseye_dryfire",
+            "certificate_hash": "a13e1e4aa2c530f337d5184419bce63b9a56b00c"
+          }
+        },
+        {
+          "client_id": "655125243696-9svm74ovdf1hiaai9iqnvsk2c568nj01.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMzVdHH-3hXg4pY8ysgrsBcgaLjc7g9KE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "655125243696-9svm74ovdf1hiaai9iqnvsk2c568nj01.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "655125243696-e4de78t5p255ahlqe73viunbd8eu2cac.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.bullseyeDryfire"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

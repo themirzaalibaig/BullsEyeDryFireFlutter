@@ -12,7 +12,10 @@ import 'core/services/permission_service.dart';
 import 'core/services/connectivity_service.dart';
 import 'core/services/image_picker_service.dart';
 import 'core/services/app_update_service.dart';
+import 'core/services/google_sign_in_service.dart';
 import 'core/localization/localization_helper.dart';
+import 'firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +26,8 @@ void main() async {
   // Initialize environment
   await AppConfig.init(Environment.dev);
 
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   // Initialize services
   Get.put(PathService());
   Get.put(SecureStorageService());
@@ -30,6 +35,11 @@ void main() async {
   Get.put(ConnectivityService());
   Get.put(ImagePickerService());
   Get.put(AppUpdateService());
+
+  // Initialize Google Sign-In (required for Android)
+  await GoogleSignInService.initSignIn(
+    serverClientId: AppConstants.googleServerClientId,
+  );
 
   runApp(
     EasyLocalization(

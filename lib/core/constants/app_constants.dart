@@ -26,4 +26,10 @@ class AppConstants {
   static const String splashRoute = '/splash';
   static const String homeRoute = '/home';
   static const String onboardingRoute = '/onboarding';
+
+  // Google Sign-In
+  // Use Web Client ID (not iOS or Android client ID) for serverClientId
+  // This is the Web application OAuth 2.0 Client ID from Google Cloud Console
+  static const String googleServerClientId =
+      '655125243696-9svm74ovdf1hiaai9iqnvsk2c568nj01.apps.googleusercontent.com';
 }

@@ -40,7 +40,12 @@ class OnboardingPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  GoogleButton(),
+                  Obx(
+                    () => GoogleButton(
+                      onPressed: controller.continueWithGoogle,
+                      isLoading: controller.isLoading.value,
+                    ),
+                  ),
                   const SizedBox(height: 12),
                   const AuthSeparator(),
                   const SizedBox(height: 12),
