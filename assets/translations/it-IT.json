@@ -12,6 +12,23 @@
   "login": "Accedi",
   "forgot_password": "Password dimenticata?",
   "upgrade_to_pro": "Passa a Pro?",
-  "continue_as_guest": "Continua come ospite"
+  "continue_as_guest": "Continua come ospite",
+  "whats_your_name": "Qual è il tuo nome?",
+  "full_name": "Nome completo",
+  "whats_your_email": "Qual è la tua email?",
+  "email_address": "Indirizzo email",
+  "enter_your_phone_number": "Inserisci il tuo numero di telefono",
+  "your_phone_number": "Il tuo numero di telefono",
+  "create_your_password": "Crea la tua password",
+  "enter_your_password": "Inserisci la tua password",
+  "confirm_your_password": "Conferma la tua password",
+  "otp_verification": "Verifica OTP",
+  "enter_otp_sent_to_email": "Inserisci l'OTP inviato a {email}",
+  "resend_otp": "Reinvia OTP",
+  "verify": "VERIFICA",
+  "forgot_password_title": "Password dimenticata?",
+  "forgot_password_description": "Non preoccuparti! Inserisci la tua email e ti invieremo un OTP per reimpostare la tua password.",
+  "send_otp": "INVIA OTP",
+  "reset_password": "Reimposta password",
+  "reset_password_description": "Inserisci la tua nuova password qui sotto."
 }
-

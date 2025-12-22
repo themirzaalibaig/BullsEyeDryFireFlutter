@@ -26,6 +26,11 @@ class AppConstants {
   static const String splashRoute = '/splash';
   static const String homeRoute = '/home';
   static const String onboardingRoute = '/onboarding';
+  static const String signupRoute = '/auth/signup';
+  static const String loginRoute = '/auth/login';
+  static const String otpVerificationRoute = '/auth/otp-verification';
+  static const String forgotPasswordRoute = '/auth/forgot-password';
+  static const String resetPasswordRoute = '/auth/reset-password';
 
   // Google Sign-In
   // Use Web Client ID (not iOS or Android client ID) for serverClientId

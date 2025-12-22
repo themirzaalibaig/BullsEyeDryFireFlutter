@@ -8,6 +8,7 @@ import '../../../../shared/widgets/auth_separator.dart';
 import '../../../../shared/widgets/auth_welcome.dart';
 import '../../../../shared/widgets/google_buttton.dart';
 import '../controllers/onboarding_controller.dart';
+import '../../../auth/presentation/controllers/signup_controller.dart';
 
 class OnboardingPage extends StatelessWidget {
   const OnboardingPage({super.key});
@@ -15,6 +16,7 @@ class OnboardingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<OnboardingController>();
+    final signupController = Get.find<SignupController>();
 
     return Scaffold(
       backgroundColor: AppColors.primary,
@@ -42,8 +44,10 @@ class OnboardingPage extends StatelessWidget {
                   ),
                   Obx(
                     () => GoogleButton(
-                      onPressed: controller.continueWithGoogle,
-                      isLoading: controller.isLoading.value,
+                      onPressed: signupController.isGoogleLoading.value
+                          ? null
+                          : signupController.signInWithGoogle,
+                      isLoading: signupController.isGoogleLoading.value,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -71,7 +75,8 @@ class OnboardingPage extends StatelessWidget {
                   const SizedBox(height: 12),
                   AppButton(
                     text: context.tr('login'),
-                    onPressed: controller.continueAsGuest,
+                    onPressed: controller.login,
+                    variant: AppButtonVariant.default_,
                   ),
                   TextButton(
                     onPressed: controller.forgotPassword,

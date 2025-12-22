@@ -4,23 +4,26 @@ import '../../core/constants/app_constants.dart';
 import '../../core/constants/colors.dart';
 
 class AuthWelcome extends StatelessWidget {
-  const AuthWelcome({super.key});
+  final bool isShowTitle;
+  const AuthWelcome({super.key, this.isShowTitle = true});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          context.tr('welcome_to'),
-          style: const TextStyle(
-            fontSize: 24,
-            color: AppColors.tertiary,
-            fontWeight: FontWeight.normal,
+        if (isShowTitle) ...[
+          Text(
+            context.tr('welcome_to'),
+            style: const TextStyle(
+              fontSize: 24,
+              color: AppColors.tertiary,
+              fontWeight: FontWeight.normal,
+            ),
+            textAlign: TextAlign.center,
           ),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 16),
+          const SizedBox(height: 16),
+        ],
         Image.asset(
           AppConstants.logoPath,
           height: 180,

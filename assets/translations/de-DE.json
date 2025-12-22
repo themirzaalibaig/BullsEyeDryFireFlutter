@@ -12,6 +12,23 @@
   "login": "Anmelden",
   "forgot_password": "Passwort vergessen?",
   "upgrade_to_pro": "Auf Pro upgraden?",
-  "continue_as_guest": "Als Gast fortfahren"
+  "continue_as_guest": "Als Gast fortfahren",
+  "whats_your_name": "Wie ist Ihr Name?",
+  "full_name": "Vollständiger Name",
+  "whats_your_email": "Wie ist Ihre E-Mail?",
+  "email_address": "E-Mail-Adresse",
+  "enter_your_phone_number": "Geben Sie Ihre Telefonnummer ein",
+  "your_phone_number": "Ihre Telefonnummer",
+  "create_your_password": "Erstellen Sie Ihr Passwort",
+  "enter_your_password": "Geben Sie Ihr Passwort ein",
+  "confirm_your_password": "Bestätigen Sie Ihr Passwort",
+  "otp_verification": "OTP-Verifizierung",
+  "enter_otp_sent_to_email": "Geben Sie das an {email} gesendete OTP ein",
+  "resend_otp": "OTP erneut senden",
+  "verify": "VERIFIZIEREN",
+  "forgot_password_title": "Passwort vergessen?",
+  "forgot_password_description": "Keine Sorge! Geben Sie Ihre E-Mail ein und wir senden Ihnen ein OTP zum Zurücksetzen Ihres Passworts.",
+  "send_otp": "OTP SENDEN",
+  "reset_password": "Passwort zurücksetzen",
+  "reset_password_description": "Geben Sie unten Ihr neues Passwort ein."
 }
-

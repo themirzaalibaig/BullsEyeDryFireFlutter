@@ -2,9 +2,19 @@ import 'package:get/get.dart';
 import '../../features/splash/presentation/pages/splash_page.dart';
 import '../../features/home/presentation/pages/home_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
+import '../../features/auth/presentation/pages/signup_page.dart';
+import '../../features/auth/presentation/pages/login_page.dart';
+import '../../features/auth/presentation/pages/otp_verification_page.dart';
+import '../../features/auth/presentation/pages/forgot_password_page.dart';
+import '../../features/auth/presentation/pages/reset_password_page.dart';
 import '../../features/splash/presentation/bindings/splash_binding.dart';
 import '../../features/home/presentation/bindings/home_binding.dart';
 import '../../features/onboarding/presentation/bindings/onboarding_binding.dart';
+import '../../features/auth/presentation/bindings/signup_binding.dart';
+import '../../features/auth/presentation/bindings/login_binding.dart';
+import '../../features/auth/presentation/bindings/otp_verification_binding.dart';
+import '../../features/auth/presentation/bindings/forgot_password_binding.dart';
+import '../../features/auth/presentation/bindings/reset_password_binding.dart';
 import '../../core/constants/app_constants.dart';
 
 class AppPages {
@@ -27,6 +37,31 @@ class AppPages {
       name: AppConstants.onboardingRoute,
       page: () => const OnboardingPage(),
       binding: OnboardingBinding(),
+    ),
+    GetPage(
+      name: AppConstants.signupRoute,
+      page: () => const SignupPage(),
+      binding: SignupBinding(),
+    ),
+    GetPage(
+      name: AppConstants.loginRoute,
+      page: () => const LoginPage(),
+      binding: LoginBinding(),
+    ),
+    GetPage(
+      name: AppConstants.otpVerificationRoute,
+      page: () => const OTPVerificationPage(),
+      binding: OTPVerificationBinding(),
+    ),
+    GetPage(
+      name: AppConstants.forgotPasswordRoute,
+      page: () => const ForgotPasswordPage(),
+      binding: ForgotPasswordBinding(),
+    ),
+    GetPage(
+      name: AppConstants.resetPasswordRoute,
+      page: () => const ResetPasswordPage(),
+      binding: ResetPasswordBinding(),
     ),
   ];
 }

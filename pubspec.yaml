@@ -74,6 +74,12 @@ dependencies:
   google_sign_in: ^7.2.0
   firebase_auth: ^6.1.3
 
+  # OTP Input
+  pin_code_fields: ^8.0.1
+
+  # Country Code Picker
+  country_code_picker: ^3.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -104,6 +110,7 @@ flutter:
     - lib/assets/images/
     - lib/assets/icons/
     - assets/translations/
+    - .env.development
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

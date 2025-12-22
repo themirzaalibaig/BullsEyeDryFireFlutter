@@ -14,8 +14,12 @@ class AppConfig {
     try {
       await dotenv.load(fileName: _getEnvFile());
     } catch (e) {
+      // Silently handle missing .env files - they're optional
+      // The app will use fallback values from dotenv.get() calls
       if (kDebugMode) {
-        print('Warning: Could not load .env file: $e');
+        print(
+          'Info: .env file not found (${_getEnvFile()}). Using default values.',
+        );
       }
     }
   }
@@ -33,18 +37,37 @@ class AppConfig {
 
   // API Configuration
   static String get apiBaseUrl {
-    return dotenv.get('API_BASE_URL', fallback: 'https://api.example.com');
+    try {
+      return dotenv.get('API_BASE_URL', fallback: 'https://api.example.com');
+    } catch (e) {
+      return 'https://api.example.com';
+    }
   }
 
   static String get apiKey {
-    return dotenv.get('API_KEY', fallback: '');
+    try {
+      return dotenv.get('API_KEY', fallback: '');
+    } catch (e) {
+      return '';
+    }
   }
 
   // Feature Flags
-  static bool get enableAnalytics =>
-      dotenv.get('ENABLE_ANALYTICS', fallback: 'true') == 'true';
-  static bool get enableCrashReporting =>
-      dotenv.get('ENABLE_CRASH_REPORTING', fallback: 'true') == 'true';
+  static bool get enableAnalytics {
+    try {
+      return dotenv.get('ENABLE_ANALYTICS', fallback: 'true') == 'true';
+    } catch (e) {
+      return true;
+    }
+  }
+
+  static bool get enableCrashReporting {
+    try {
+      return dotenv.get('ENABLE_CRASH_REPORTING', fallback: 'true') == 'true';
+    } catch (e) {
+      return true;
+    }
+  }
 
   // App Info
   static bool get isProduction => _environment == Environment.prod;

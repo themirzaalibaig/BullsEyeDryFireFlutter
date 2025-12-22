@@ -12,6 +12,23 @@
   "login": "登录",
   "forgot_password": "忘记密码?",
   "upgrade_to_pro": "升级到Pro?",
-  "continue_as_guest": "以访客身份继续"
+  "continue_as_guest": "以访客身份继续",
+  "whats_your_name": "您的姓名是什么?",
+  "full_name": "全名",
+  "whats_your_email": "您的邮箱是什么?",
+  "email_address": "邮箱地址",
+  "enter_your_phone_number": "输入您的电话号码",
+  "your_phone_number": "您的电话号码",
+  "create_your_password": "创建您的密码",
+  "enter_your_password": "输入您的密码",
+  "confirm_your_password": "确认您的密码",
+  "otp_verification": "OTP验证",
+  "enter_otp_sent_to_email": "输入发送到 {email} 的OTP",
+  "resend_otp": "重新发送OTP",
+  "verify": "验证",
+  "forgot_password_title": "忘记密码?",
+  "forgot_password_description": "别担心! 输入您的邮箱，我们将向您发送OTP以重置密码。",
+  "send_otp": "发送OTP",
+  "reset_password": "重置密码",
+  "reset_password_description": "请在下方输入您的新密码。"
 }
-

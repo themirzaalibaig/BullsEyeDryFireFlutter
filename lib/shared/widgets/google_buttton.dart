@@ -7,7 +7,11 @@ class GoogleButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final bool isLoading;
 
-  const GoogleButton({super.key, this.onPressed, this.isLoading = false});
+  const GoogleButton({
+    super.key,
+    this.onPressed,
+    this.isLoading = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +22,7 @@ class GoogleButton extends StatelessWidget {
         onPressed: isLoading ? null : onPressed,
         style: OutlinedButton.styleFrom(
           backgroundColor: Colors.transparent,
-          side: BorderSide(
-            color: isLoading ? AppColors.septenary : AppColors.tertiary,
-            width: 1,
-          ),
+          side: BorderSide(color: AppColors.tertiary, width: 1),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -32,7 +33,9 @@ class GoogleButton extends StatelessWidget {
                 height: 20,
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.tertiary),
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    AppColors.tertiary,
+                  ),
                 ),
               )
             : Row(

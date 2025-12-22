@@ -12,6 +12,23 @@
   "login": "Войти",
   "forgot_password": "Забыли пароль?",
   "upgrade_to_pro": "Обновить до Pro?",
-  "continue_as_guest": "Продолжить как гость"
+  "continue_as_guest": "Продолжить как гость",
+  "whats_your_name": "Как вас зовут?",
+  "full_name": "Полное имя",
+  "whats_your_email": "Какой у вас email?",
+  "email_address": "Адрес электронной почты",
+  "enter_your_phone_number": "Введите ваш номер телефона",
+  "your_phone_number": "Ваш номер телефона",
+  "create_your_password": "Создайте пароль",
+  "enter_your_password": "Введите ваш пароль",
+  "confirm_your_password": "Подтвердите ваш пароль",
+  "otp_verification": "Проверка OTP",
+  "enter_otp_sent_to_email": "Введите OTP, отправленный на {email}",
+  "resend_otp": "Отправить OTP повторно",
+  "verify": "ПРОВЕРИТЬ",
+  "forgot_password_title": "Забыли пароль?",
+  "forgot_password_description": "Не волнуйтесь! Введите ваш email, и мы отправим вам OTP для сброса пароля.",
+  "send_otp": "ОТПРАВИТЬ OTP",
+  "reset_password": "Сбросить пароль",
+  "reset_password_description": "Введите ваш новый пароль ниже."
 }
-
