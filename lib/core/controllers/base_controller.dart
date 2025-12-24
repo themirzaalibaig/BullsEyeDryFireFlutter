@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import '../utils/logger.dart';
-import '../widgets/error_handler.dart';
+import '../utils/error_handler.dart';
 import '../services/connectivity_service.dart';
 
 abstract class BaseController extends GetxController {

@@ -13,6 +13,8 @@ import 'core/services/connectivity_service.dart';
 import 'core/services/image_picker_service.dart';
 import 'core/services/app_update_service.dart';
 import 'core/services/google_sign_in_service.dart';
+import 'core/services/google_auth_service.dart';
+import 'core/services/token_service.dart';
 import 'core/localization/localization_helper.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -31,6 +33,9 @@ void main() async {
   // Initialize services
   Get.put(PathService());
   Get.put(SecureStorageService());
+  Get.put(
+    TokenService(),
+  ); // Token service must be initialized after SecureStorageService
   Get.put(PermissionService());
   Get.put(ConnectivityService());
   Get.put(ImagePickerService());
@@ -41,7 +46,9 @@ void main() async {
     serverClientId: AppConstants.googleServerClientId,
   );
 
-  
+  // Initialize Google Auth Service
+  Get.put(GoogleAuthService());
+
   runApp(
     EasyLocalization(
       supportedLocales: LocalizationHelper.getSupportedLocales(),

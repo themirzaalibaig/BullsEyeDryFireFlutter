@@ -13,12 +13,17 @@ abstract class ApiService {
     Map<String, dynamic>? queryParameters,
     dio.Options? options,
     dio.CancelToken? cancelToken,
+    bool auth = false, // Default: no auth required
   }) async {
     try {
+      final finalOptions = options ?? dio.Options();
+      finalOptions.extra ??= {};
+      finalOptions.extra!['auth'] = auth;
+
       final response = await _httpClient.get(
         path,
         queryParameters: queryParameters,
-        options: options,
+        options: finalOptions,
         cancelToken: cancelToken,
       );
       return response;
@@ -35,13 +40,18 @@ abstract class ApiService {
     Map<String, dynamic>? queryParameters,
     dio.Options? options,
     dio.CancelToken? cancelToken,
+    bool auth = false, // Default: no auth required
   }) async {
     try {
+      final finalOptions = options ?? dio.Options();
+      finalOptions.extra ??= {};
+      finalOptions.extra!['auth'] = auth;
+
       final response = await _httpClient.post(
         path,
         data: data,
         queryParameters: queryParameters,
-        options: options,
+        options: finalOptions,
         cancelToken: cancelToken,
       );
       return response;
@@ -58,13 +68,18 @@ abstract class ApiService {
     Map<String, dynamic>? queryParameters,
     dio.Options? options,
     dio.CancelToken? cancelToken,
+    bool auth = false, // Default: no auth required
   }) async {
     try {
+      final finalOptions = options ?? dio.Options();
+      finalOptions.extra ??= {};
+      finalOptions.extra!['auth'] = auth;
+
       final response = await _httpClient.put(
         path,
         data: data,
         queryParameters: queryParameters,
-        options: options,
+        options: finalOptions,
         cancelToken: cancelToken,
       );
       return response;
@@ -81,13 +96,18 @@ abstract class ApiService {
     Map<String, dynamic>? queryParameters,
     dio.Options? options,
     dio.CancelToken? cancelToken,
+    bool auth = false, // Default: no auth required
   }) async {
     try {
+      final finalOptions = options ?? dio.Options();
+      finalOptions.extra ??= {};
+      finalOptions.extra!['auth'] = auth;
+
       final response = await _httpClient.delete(
         path,
         data: data,
         queryParameters: queryParameters,
-        options: options,
+        options: finalOptions,
         cancelToken: cancelToken,
       );
       return response;
@@ -97,4 +117,3 @@ abstract class ApiService {
     }
   }
 }
-

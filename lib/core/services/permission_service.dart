@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../utils/logger.dart';
-import '../widgets/error_handler.dart';
+import '../utils/error_handler.dart';
 
 class PermissionService extends GetxService {
   static PermissionService get to => Get.find();

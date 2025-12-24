@@ -18,11 +18,11 @@ class SplashController extends GetxController {
 
   void _navigateToHome() {
     Future.delayed(const Duration(seconds: AppConstants.splashDuration), () {
-      AppLogger.info('Navigating to home: ${AppConstants.homeRoute}');
+      AppLogger.info('Navigating to language: ${AppConstants.languageRoute}');
 
-      // Use offAllNamed to clear the navigation stack and go to home
-      // This removes all previous routes and navigates to the home route
-      Get.offAllNamed(AppConstants.homeRoute);
+      // Use offAllNamed to clear the navigation stack and go to language selection
+      // This removes all previous routes and navigates to the language route
+      Get.offAllNamed(AppConstants.languageRoute);
       AppLogger.info('Navigation command executed');
     });
   }

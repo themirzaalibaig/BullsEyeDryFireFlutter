@@ -1,26 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../core/widgets/app_button.dart';
-import '../../../../core/widgets/language_selector_dialog.dart';
-import '../../../../core/widgets/language_dropdown.dart';
 import '../../../../core/constants/colors.dart';
-import '../../../../shared/widgets/auth_welcome.dart';
 import '../controllers/home_controller.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
-  void _showLanguageSelector(BuildContext context, HomeController controller) {
-    LanguageSelectorDialog.show(
-      context: context,
-      languages: controller.availableLanguages,
-      selectedLanguage: controller.selectedLanguage.value,
-      onLanguageSelected: (language) {
-        controller.selectLanguageWithContext(language, context);
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,61 +13,185 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: AppColors.primary,
-      body: SafeArea(
+      body: Obx(() {
+        final currentTab = controller.currentTab.value;
+        return _buildTabContent(currentTab);
+      }),
+      bottomNavigationBar: Obx(() {
+        final currentTab = controller.currentTab.value;
+        return _buildBottomNavigationBar(controller, currentTab);
+      }),
+    );
+  }
+
+  Widget _buildTabContent(HomeTab tab) {
+    switch (tab) {
+      case HomeTab.home:
+        return _buildHomeTab();
+      case HomeTab.training:
+        return _buildTrainingTab();
+      case HomeTab.profile:
+        return _buildProfileTab();
+      case HomeTab.settings:
+        return _buildSettingsTab();
+    }
+  }
+
+  Widget _buildHomeTab() {
+    return SafeArea(
+      child: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(height: 40),
-            // Top section with welcome
-            const AuthWelcome(),
-
-            const Spacer(),
-
-            // Center section with language selector
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                children: [
-                  Builder(
-                    builder: (context) => Text(
-                      context.tr('choose_language'),
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: AppColors.tertiary,
-                        fontWeight: FontWeight.normal,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Obx(
-                    () => LanguageDropdown(
-                      selectedLanguage: controller.selectedLanguage.value,
-                      onTap: () => _showLanguageSelector(context, controller),
-                    ),
-                  ),
-                ],
+            Icon(Icons.home, size: 64, color: AppColors.tertiary),
+            const SizedBox(height: 16),
+            Text(
+              'Home',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: AppColors.tertiary,
               ),
             ),
+            const SizedBox(height: 8),
+            Text(
+              'Welcome to Bulls Eye Dry Fire',
+              style: TextStyle(fontSize: 16, color: AppColors.nonary),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
-            const Spacer(),
-
-            // Bottom section with next button (default variant: tertiary bg, quaternary fg)
-            Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Builder(
-                builder: (context) => Obx(
-                  () => AppButton(
-                    text: context.tr('next').toUpperCase(),
-                    onPressed: controller.selectedLanguage.value != null
-                        ? controller.onNextPressed
-                        : null,
-                    isEnabled: controller.selectedLanguage.value != null,
-                    variant: AppButtonVariant.default_,
-                    borderRadius: 8,
-                    icon: null,
-                  ),
-                ),
+  Widget _buildTrainingTab() {
+    return SafeArea(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.fitness_center, size: 64, color: AppColors.tertiary),
+            const SizedBox(height: 16),
+            Text(
+              'Training',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: AppColors.tertiary,
               ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Practice drills and training',
+              style: TextStyle(fontSize: 16, color: AppColors.nonary),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProfileTab() {
+    return SafeArea(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.person, size: 64, color: AppColors.tertiary),
+            const SizedBox(height: 16),
+            Text(
+              'Profile',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: AppColors.tertiary,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Your profile and settings',
+              style: TextStyle(fontSize: 16, color: AppColors.nonary),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSettingsTab() {
+    return SafeArea(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.settings, size: 64, color: AppColors.tertiary),
+            const SizedBox(height: 16),
+            Text(
+              'Settings',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: AppColors.tertiary,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'App settings and preferences',
+              style: TextStyle(fontSize: 16, color: AppColors.nonary),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBottomNavigationBar(
+    HomeController controller,
+    HomeTab currentTab,
+  ) {
+    return Builder(
+      builder: (context) => Container(
+        decoration: BoxDecoration(
+          color: AppColors.tertiary,
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.primary.withValues(alpha: 0.1),
+              blurRadius: 10,
+              offset: const Offset(0, -2),
+            ),
+          ],
+        ),
+        child: BottomNavigationBar(
+          currentIndex: currentTab.index,
+          onTap: (index) => controller.changeTab(HomeTab.values[index]),
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: AppColors.tertiary,
+          selectedItemColor: AppColors.secondary,
+          unselectedItemColor: AppColors.nonary,
+          selectedLabelStyle: const TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 12,
+          ),
+          unselectedLabelStyle: const TextStyle(
+            fontWeight: FontWeight.normal,
+            fontSize: 12,
+          ),
+          items: [
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.home),
+              label: context.tr('home'),
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.fitness_center),
+              label: context.tr('training'),
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.person),
+              label: context.tr('profile'),
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.settings),
+              label: context.tr('settings'),
             ),
           ],
         ),

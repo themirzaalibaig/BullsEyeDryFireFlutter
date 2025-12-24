@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../core/services/google_sign_in_service.dart';
+import '../../../../core/services/google_auth_service.dart';
 import '../../../../core/utils/logger.dart';
+import '../../../../core/utils/error_handler.dart';
 import '../../../../core/constants/app_constants.dart';
+import '../../data/repositories/auth_repository.dart';
+import '../../data/models/auth_response_model.dart';
 
 class LoginController extends GetxController {
+  final AuthRepository _authRepository = AuthRepository();
+
   // Loading states
   final RxBool isLoading = false.obs;
-  final RxBool isGoogleLoading = false.obs;
 
   // Form controllers
   final TextEditingController emailController = TextEditingController();
@@ -15,44 +19,16 @@ class LoginController extends GetxController {
 
   @override
   void onClose() {
+    // Dispose is safe to call multiple times
     emailController.dispose();
     passwordController.dispose();
     super.onClose();
   }
 
-  // Google Sign-In
+  // Google Sign-In - Uses reusable service
   Future<void> signInWithGoogle() async {
-    try {
-      isGoogleLoading.value = true;
-      AppLogger.info('Initiating Google Sign-In...');
-
-      final account = await GoogleSignInService.signIn();
-
-      if (account != null) {
-        AppLogger.info('Google Sign-In successful');
-        AppLogger.info('User ID: ${account.id}');
-        AppLogger.info('Email: ${account.email}');
-
-        // Navigate to home after successful sign-in
-        Get.offAllNamed(AppConstants.homeRoute);
-      } else {
-        AppLogger.warning('User cancelled Google Sign-In');
-        Get.snackbar(
-          'Sign-In Cancelled',
-          'Google Sign-In was cancelled',
-          snackPosition: SnackPosition.BOTTOM,
-        );
-      }
-    } catch (e, stackTrace) {
-      AppLogger.error('Google Sign-In error', e, stackTrace);
-      Get.snackbar(
-        'Sign-In Error',
-        'Failed to sign in with Google. Please try again.',
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    } finally {
-      isGoogleLoading.value = false;
-    }
+    final googleAuthService = GoogleAuthService.to;
+    await googleAuthService.signInWithGoogle();
   }
 
   // Login
@@ -64,40 +40,46 @@ class LoginController extends GetxController {
       isLoading.value = true;
       AppLogger.info('Starting login process...');
 
-      if (emailController.text.isEmpty) {
+      if (emailController.text.trim().isEmpty) {
         isLoading.value = false;
-        Get.snackbar(
-          'Error',
-          'Please enter your email',
-          snackPosition: SnackPosition.BOTTOM,
-        );
+        ErrorHandler.handleError('Please enter your email', showSnackbar: true);
         return;
       }
       if (passwordController.text.isEmpty) {
         isLoading.value = false;
-        Get.snackbar(
-          'Error',
+        ErrorHandler.handleError(
           'Please enter your password',
-          snackPosition: SnackPosition.BOTTOM,
+          showSnackbar: true,
         );
         return;
       }
 
-      // TODO: Call login API
-      AppLogger.info('Login successful');
+      // Call login API
+      final AuthResponseModel response = await _authRepository.login(
+        email: emailController.text.trim(),
+        password: passwordController.text,
+      );
 
-      // Navigate to home after successful login
-      Get.offAllNamed(AppConstants.homeRoute);
+      if (response.success && response.user != null) {
+        AppLogger.info('Login successful');
+        // Navigate to home after successful login
+        Get.offAllNamed(AppConstants.homeRoute);
+      } else {
+        // Handle API response errors
+        ErrorHandler.handleApiResponse(
+          success: response.success,
+          message: response.message,
+          errors: response.errors?.map((e) => e.toJson()).toList(),
+        );
+      }
     } catch (e, stackTrace) {
       AppLogger.error('Login error', e, stackTrace);
-      Get.snackbar(
-        'Error',
-        'Invalid email or password. Please try again.',
-        snackPosition: SnackPosition.BOTTOM,
+      ErrorHandler.handleError(
+        e,
+        defaultMessage: 'Failed to login. Please try again.',
       );
     } finally {
       isLoading.value = false;
     }
   }
 }
-

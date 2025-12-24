@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/utils/logger.dart';
+import '../../../../core/utils/error_handler.dart';
 import 'pricing_controller.dart';
 
 class PaymentController extends GetxController {
@@ -32,10 +33,9 @@ class PaymentController extends GetxController {
       );
     } catch (e, stackTrace) {
       AppLogger.error('Payment processing error', e, stackTrace);
-      Get.snackbar(
-        'Payment Error',
-        'Failed to process payment. Please try again.',
-        snackPosition: SnackPosition.BOTTOM,
+      ErrorHandler.handleError(
+        e,
+        defaultMessage: 'Failed to process payment. Please try again.',
       );
     } finally {
       isProcessing.value = false;
@@ -47,4 +47,3 @@ class PaymentController extends GetxController {
     Get.back();
   }
 }
-

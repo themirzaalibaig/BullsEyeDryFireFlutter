@@ -16,7 +16,6 @@ class OTPVerificationPage extends StatelessWidget {
     final controller = Get.find<OTPVerificationController>();
     final arguments = Get.arguments as Map<String, dynamic>?;
     final String email = arguments?['email'] ?? '';
-    final String type = arguments?['type'] ?? 'signup';
 
     return Scaffold(
       backgroundColor: AppColors.primary,
@@ -46,23 +45,26 @@ class OTPVerificationPage extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 24),
+              // OTP Input - removed onCompleted to prevent auto-verification
               OTPInput(
                 controller: controller.otpController,
-                onCompleted: (code) {
-                  controller.verifyOtp(type);
-                },
+                onCompleted: null, // Don't auto-verify on completion
               ),
               const SizedBox(height: 24),
               TextButton(
-                onPressed: () {
-                  controller.resendOtp();
-                },
-                child: Text(
-                  context.tr('resend_otp'),
-                  style: const TextStyle(
-                    color: AppColors.tertiary,
-                    decoration: TextDecoration.underline,
-                    fontSize: 14,
+                onPressed: controller.isResendingOtp.value
+                    ? null
+                    : controller.resendOtp,
+                child: Obx(
+                  () => Text(
+                    context.tr('resend_otp'),
+                    style: TextStyle(
+                      color: controller.isResendingOtp.value
+                          ? AppColors.nonary
+                          : AppColors.tertiary,
+                      decoration: TextDecoration.underline,
+                      fontSize: 14,
+                    ),
                   ),
                 ),
               ),
@@ -72,24 +74,16 @@ class OTPVerificationPage extends StatelessWidget {
                 child: Obx(
                   () => AppButton(
                     text: context.tr('verify').toUpperCase(),
-                    onPressed: controller.isOtpLoading.value
-                        ? null
-                        : () {
-                            // Store OTP value before async operation
-                            final otpLength =
-                                controller.otpController.text.length;
-                            if (otpLength == 6) {
-                              WidgetsBinding.instance.addPostFrameCallback((_) {
-                                controller.verifyOtp(type);
-                              });
-                            } else {
-                              Get.snackbar(
-                                'Error',
-                                'Please enter a valid OTP',
-                                snackPosition: SnackPosition.BOTTOM,
-                              );
-                            }
-                          },
+                    onPressed:
+                        (controller.isOtpComplete &&
+                            !controller.isOtpLoading.value)
+                        ? () {
+                            // Only verify when button is clicked
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              controller.verifyOtp();
+                            });
+                          }
+                        : null,
                     isLoading: controller.isOtpLoading.value,
                     variant: AppButtonVariant.default_,
                   ),

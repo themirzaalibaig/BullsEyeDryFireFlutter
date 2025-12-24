@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart' as dio;
+import 'package:get/get.dart';
 import '../utils/logger.dart';
 import '../constants/app_constants.dart';
+import '../services/token_service.dart';
 import 'exceptions.dart';
 
 class DioClient {
@@ -55,7 +57,10 @@ class DioClient {
 // Logging Interceptor
 class LoggingInterceptor extends dio.Interceptor {
   @override
-  void onRequest(dio.RequestOptions options, dio.RequestInterceptorHandler handler) {
+  void onRequest(
+    dio.RequestOptions options,
+    dio.RequestInterceptorHandler handler,
+  ) {
     AppLogger.info('REQUEST[${options.method}] => PATH: ${options.path}');
     AppLogger.debug('Headers: ${options.headers}');
     AppLogger.debug('Data: ${options.data}');
@@ -64,7 +69,10 @@ class LoggingInterceptor extends dio.Interceptor {
   }
 
   @override
-  void onResponse(dio.Response response, dio.ResponseInterceptorHandler handler) {
+  void onResponse(
+    dio.Response response,
+    dio.ResponseInterceptorHandler handler,
+  ) {
     AppLogger.info(
       'RESPONSE[${response.statusCode}] => PATH: ${response.requestOptions.path}',
     );
@@ -86,13 +94,100 @@ class LoggingInterceptor extends dio.Interceptor {
 // Auth Interceptor
 class AuthInterceptor extends dio.Interceptor {
   @override
-  void onRequest(dio.RequestOptions options, dio.RequestInterceptorHandler handler) {
-    // Add auth token if available
-    // final token = Get.find<AuthController>().token;
-    // if (token != null) {
-    //   options.headers['Authorization'] = 'Bearer $token';
-    // }
+  void onRequest(
+    dio.RequestOptions options,
+    dio.RequestInterceptorHandler handler,
+  ) async {
+    // Check if auth is required (default: false)
+    final requiresAuth = options.extra['auth'] as bool? ?? false;
+
+    if (requiresAuth) {
+      try {
+        final tokenService = Get.find<TokenService>();
+        final accessToken = await tokenService.getAccessToken();
+
+        if (accessToken != null && accessToken.isNotEmpty) {
+          options.headers['Authorization'] = 'Bearer $accessToken';
+          AppLogger.debug('Auth token added to request: ${options.path}');
+        } else {
+          AppLogger.warning(
+            'Auth required but no token found for: ${options.path}',
+          );
+        }
+      } catch (e) {
+        AppLogger.error('Failed to get access token', e);
+      }
+    }
+
     super.onRequest(options, handler);
+  }
+
+  @override
+  void onError(
+    dio.DioException err,
+    dio.ErrorInterceptorHandler handler,
+  ) async {
+    // Handle 401 Unauthorized - try to refresh token
+    if (err.response?.statusCode == 401) {
+      final requiresAuth = err.requestOptions.extra['auth'] as bool? ?? false;
+
+      if (requiresAuth) {
+        try {
+          final tokenService = Get.find<TokenService>();
+          final refreshToken = await tokenService.getRefreshToken();
+
+          if (refreshToken != null && refreshToken.isNotEmpty) {
+            AppLogger.info('Access token expired, attempting refresh...');
+
+            // Try to refresh the token
+            final dioInstance = DioClient.instance;
+            final refreshResponse = await dioInstance.post(
+              '/auth/refresh-token',
+              data: {'refreshToken': refreshToken},
+              options: dio.Options(
+                extra: {'auth': false}, // Refresh endpoint is public
+              ),
+            );
+
+            if (refreshResponse.statusCode == 200) {
+              final responseData = refreshResponse.data as Map<String, dynamic>;
+              final tokenData =
+                  responseData['data']?['token'] as Map<String, dynamic>?;
+
+              if (tokenData != null) {
+                final newAccessToken = tokenData['accessToken'] as String;
+                final newRefreshToken = tokenData['refreshToken'] as String;
+
+                // Save new tokens
+                await tokenService.saveTokens(newAccessToken, newRefreshToken);
+
+                // Retry the original request with new token
+                err.requestOptions.headers['Authorization'] =
+                    'Bearer $newAccessToken';
+                AppLogger.info('Token refreshed, retrying original request');
+
+                try {
+                  final response = await dioInstance.fetch(err.requestOptions);
+                  return handler.resolve(response);
+                } catch (e) {
+                  return handler.reject(err);
+                }
+              }
+            }
+          }
+
+          // Refresh failed or no refresh token - clear tokens and reject
+          AppLogger.warning('Token refresh failed, clearing tokens');
+          await tokenService.clearTokens();
+        } catch (e, stackTrace) {
+          AppLogger.error('Token refresh error', e, stackTrace);
+          final tokenService = Get.find<TokenService>();
+          await tokenService.clearTokens();
+        }
+      }
+    }
+
+    super.onError(err, handler);
   }
 }
 
@@ -104,38 +199,47 @@ class ErrorInterceptor extends dio.Interceptor {
       case dio.DioExceptionType.connectionTimeout:
       case dio.DioExceptionType.sendTimeout:
       case dio.DioExceptionType.receiveTimeout:
-        handler.reject(err.copyWith(
-          error: NetworkException('Connection timeout. Please check your internet connection.'),
-        ));
+        handler.reject(
+          err.copyWith(
+            error: NetworkException(
+              'Connection timeout. Please check your internet connection.',
+            ),
+          ),
+        );
         return;
       case dio.DioExceptionType.badResponse:
         final statusCode = err.response?.statusCode;
         final message = err.response?.data?['message'] ?? 'An error occurred';
-        handler.reject(err.copyWith(
-          error: ServerException(message: message, statusCode: statusCode),
-        ));
+        handler.reject(
+          err.copyWith(
+            error: ServerException(message: message, statusCode: statusCode),
+          ),
+        );
         return;
       case dio.DioExceptionType.cancel:
-        handler.reject(err.copyWith(
-          error: CancelException('Request was cancelled'),
-        ));
+        handler.reject(
+          err.copyWith(error: CancelException('Request was cancelled')),
+        );
         return;
       case dio.DioExceptionType.unknown:
         if (err.error.toString().contains('SocketException')) {
-          handler.reject(err.copyWith(
-            error: NetworkException('No internet connection'),
-          ));
+          handler.reject(
+            err.copyWith(error: NetworkException('No internet connection')),
+          );
           return;
         }
-        handler.reject(err.copyWith(
-          error: UnknownException(err.error?.toString() ?? 'Unknown error occurred'),
-        ));
+        handler.reject(
+          err.copyWith(
+            error: UnknownException(
+              err.error?.toString() ?? 'Unknown error occurred',
+            ),
+          ),
+        );
         return;
       default:
-        handler.reject(err.copyWith(
-          error: UnknownException('An unexpected error occurred'),
-        ));
+        handler.reject(
+          err.copyWith(error: UnknownException('An unexpected error occurred')),
+        );
     }
   }
 }
-

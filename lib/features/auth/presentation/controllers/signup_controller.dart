@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import '../../../../core/services/google_sign_in_service.dart';
+import '../../../../core/services/google_auth_service.dart';
 import '../../../../core/utils/logger.dart';
+import '../../../../core/utils/error_handler.dart';
 import '../../../../core/constants/app_constants.dart';
+import '../../data/repositories/auth_repository.dart';
+import '../../data/models/auth_response_model.dart';
 
 class SignupController extends GetxController {
+  final AuthRepository _authRepository = AuthRepository();
+
   // Loading states
   final RxBool isLoading = false.obs;
-  final RxBool isGoogleLoading = false.obs;
 
   // Form controllers
   final TextEditingController nameController = TextEditingController();
@@ -16,7 +19,8 @@ class SignupController extends GetxController {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController countryCodeController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
   @override
   void onInit() {
@@ -26,6 +30,7 @@ class SignupController extends GetxController {
 
   @override
   void onClose() {
+    // Dispose is safe to call multiple times
     nameController.dispose();
     emailController.dispose();
     phoneController.dispose();
@@ -35,39 +40,10 @@ class SignupController extends GetxController {
     super.onClose();
   }
 
-  // Google Sign-In
+  // Google Sign-In - Uses reusable service
   Future<void> signInWithGoogle() async {
-    try {
-      isGoogleLoading.value = true;
-      AppLogger.info('Initiating Google Sign-In...');
-
-      final GoogleSignInAccount? account = await GoogleSignInService.signIn();
-
-      if (account != null) {
-        AppLogger.info('Google Sign-In successful');
-        AppLogger.info('User ID: ${account.id}');
-        AppLogger.info('Email: ${account.email}');
-
-        // Navigate to home after successful sign-in
-        Get.offAllNamed(AppConstants.homeRoute);
-      } else {
-        AppLogger.warning('User cancelled Google Sign-In');
-        Get.snackbar(
-          'Sign-In Cancelled',
-          'Google Sign-In was cancelled',
-          snackPosition: SnackPosition.BOTTOM,
-        );
-      }
-    } catch (e, stackTrace) {
-      AppLogger.error('Google Sign-In error', e, stackTrace);
-      Get.snackbar(
-        'Sign-In Error',
-        'Failed to sign in with Google. Please try again.',
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    } finally {
-      isGoogleLoading.value = false;
-    }
+    final googleAuthService = GoogleAuthService.to;
+    await googleAuthService.signInWithGoogle();
   }
 
   // Sign Up
@@ -80,72 +56,77 @@ class SignupController extends GetxController {
       AppLogger.info('Starting sign up process...');
 
       // Validate form
-      if (nameController.text.isEmpty) {
+      if (nameController.text.trim().isEmpty) {
         isLoading.value = false;
-        Get.snackbar(
-          'Error',
-          'Please enter your name',
-          snackPosition: SnackPosition.BOTTOM,
-        );
+        ErrorHandler.handleError('Please enter your name', showSnackbar: true);
         return;
       }
-      if (emailController.text.isEmpty) {
+      if (emailController.text.trim().isEmpty) {
         isLoading.value = false;
-        Get.snackbar(
-          'Error',
-          'Please enter your email',
-          snackPosition: SnackPosition.BOTTOM,
-        );
+        ErrorHandler.handleError('Please enter your email', showSnackbar: true);
         return;
       }
-      if (phoneController.text.isEmpty) {
+      if (phoneController.text.trim().isEmpty) {
         isLoading.value = false;
-        Get.snackbar(
-          'Error',
+        ErrorHandler.handleError(
           'Please enter your phone number',
-          snackPosition: SnackPosition.BOTTOM,
+          showSnackbar: true,
         );
         return;
       }
       if (passwordController.text.isEmpty ||
-          passwordController.text.length < 6) {
+          passwordController.text.length < 8) {
         isLoading.value = false;
-        Get.snackbar(
-          'Error',
-          'Password must be at least 6 characters',
-          snackPosition: SnackPosition.BOTTOM,
+        ErrorHandler.handleError(
+          'Password must be at least 8 characters',
+          showSnackbar: true,
         );
         return;
       }
       if (passwordController.text != confirmPasswordController.text) {
         isLoading.value = false;
-        Get.snackbar(
-          'Error',
-          'Passwords do not match',
-          snackPosition: SnackPosition.BOTTOM,
-        );
+        ErrorHandler.handleError('Passwords do not match', showSnackbar: true);
         return;
       }
 
-      // TODO: Call signup API
-      // For now, simulate sending OTP
-      AppLogger.info('Sign up successful, sending OTP...');
+      // Build phone number with country code
+      final String fullPhone =
+          '${countryCodeController.text}${phoneController.text.trim()}';
 
-      // Navigate to OTP verification
-      Get.toNamed(
-        AppConstants.otpVerificationRoute,
-        arguments: {'email': emailController.text, 'type': 'signup'},
+      // Call signup API
+      final AuthResponseModel response = await _authRepository.signup(
+        username: nameController.text.trim(),
+        email: emailController.text.trim(),
+        password: passwordController.text,
+        phone: fullPhone,
       );
+
+      if (response.success) {
+        AppLogger.info('Sign up successful, navigating to OTP verification...');
+        // Navigate to OTP verification
+        Get.toNamed(
+          AppConstants.otpVerificationRoute,
+          arguments: {
+            'email': emailController.text.trim(),
+            'type': 'emailVerification',
+          },
+        );
+      } else {
+        // Handle API response errors
+        ErrorHandler.handleApiResponse(
+          success: response.success,
+          message: response.message,
+          errors: response.errors?.map((e) => e.toJson()).toList(),
+        );
+      }
     } catch (e, stackTrace) {
       AppLogger.error('Sign up error', e, stackTrace);
-      Get.snackbar(
-        'Error',
-        'Failed to sign up. Please try again.',
-        snackPosition: SnackPosition.BOTTOM,
+      ErrorHandler.handleError(
+        e,
+        defaultMessage: 'Failed to sign up. Please try again.',
       );
     } finally {
       isLoading.value = false;
     }
   }
 }
-

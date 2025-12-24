@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:in_app_update/in_app_update.dart';
 import '../utils/logger.dart';
-import '../widgets/error_handler.dart';
+import '../utils/error_handler.dart';
 
 class AppUpdateService extends GetxService {
   static AppUpdateService get to => Get.find();

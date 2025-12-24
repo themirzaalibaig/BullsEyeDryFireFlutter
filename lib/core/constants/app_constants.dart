@@ -6,7 +6,7 @@ class AppConstants {
   static const String appTagline = 'Safely Practice Anywhere';
 
   // API Configuration
-  static const String apiBaseUrl = 'https://api.example.com/v1';
+  static const String apiBaseUrl = 'http://localhost:3000/api/v1';
   static const int apiTimeout = 30; // seconds
 
   // Assets Paths (images)
@@ -24,6 +24,7 @@ class AppConstants {
 
   // Routes
   static const String splashRoute = '/splash';
+  static const String languageRoute = '/language';
   static const String homeRoute = '/home';
   static const String onboardingRoute = '/onboarding';
   static const String signupRoute = '/auth/signup';

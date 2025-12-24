@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/utils/logger.dart';
+import '../../../../core/utils/error_handler.dart';
 
 enum SubscriptionPlan { monthly, yearly }
 
@@ -25,10 +26,9 @@ class PricingController extends GetxController {
       );
     } catch (e, stackTrace) {
       AppLogger.error('Subscribe error', e, stackTrace);
-      Get.snackbar(
-        'Error',
-        'Failed to process subscription. Please try again.',
-        snackPosition: SnackPosition.BOTTOM,
+      ErrorHandler.handleError(
+        e,
+        defaultMessage: 'Failed to process subscription. Please try again.',
       );
     } finally {
       isLoading.value = false;
@@ -45,4 +45,3 @@ class PricingController extends GetxController {
     Get.back();
   }
 }
-

@@ -7,6 +7,7 @@ import '../../../../shared/widgets/auth_appbar.dart';
 import '../../../../shared/widgets/auth_welcome.dart';
 import '../../../../shared/widgets/auth_separator.dart';
 import '../../../../shared/widgets/google_buttton.dart';
+import '../../../../core/services/google_auth_service.dart';
 import '../../../../shared/widgets/auth_text_input.dart';
 import '../../../../shared/widgets/auth_password_input.dart';
 import '../../../../shared/widgets/auth_phone_input.dart';
@@ -127,14 +128,15 @@ class SignupPage extends StatelessWidget {
                     const SizedBox(height: 12),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: Obx(
-                        () => GoogleButton(
-                          onPressed: controller.isGoogleLoading.value
+                      child: Obx(() {
+                        final googleAuthService = GoogleAuthService.to;
+                        return GoogleButton(
+                          onPressed: googleAuthService.isLoading.value
                               ? null
                               : controller.signInWithGoogle,
-                          isLoading: controller.isGoogleLoading.value,
-                        ),
-                      ),
+                          isLoading: googleAuthService.isLoading.value,
+                        );
+                      }),
                     ),
                     const SizedBox(height: 24),
                   ],
