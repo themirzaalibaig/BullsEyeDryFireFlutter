@@ -99,8 +99,8 @@ class AppButton extends StatelessWidget {
     return ElevatedButton.styleFrom(
       backgroundColor: canPress ? bgColor : AppColors.septenary,
       foregroundColor: canPress ? txtColor : AppColors.nonary,
-      disabledBackgroundColor: AppColors.septenary,
-      disabledForegroundColor: AppColors.nonary,
+      disabledBackgroundColor: AppColors.tertiary.withValues(alpha: 0.5),
+      disabledForegroundColor: AppColors.tertiary.withValues(alpha: 0.5),
       elevation: elevation,
       padding:
           padding ?? const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -156,7 +156,7 @@ class AppButton extends StatelessWidget {
   }
 
   Color _getLoadingColor(bool canPress) {
-    if (!canPress) return AppColors.nonary;
+    if (!canPress) return AppColors.tertiary.withValues(alpha: 0.5);
 
     switch (variant) {
       case AppButtonVariant.default_:
