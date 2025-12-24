@@ -1,5 +1,7 @@
+import 'package:dio/dio.dart' as dio;
 import '../../../../core/utils/logger.dart';
 import '../../../../core/services/token_service.dart';
+import '../../../../core/network/exceptions.dart';
 import '../datasources/auth_api_service.dart';
 import '../models/auth_response_model.dart';
 import '../models/user_model.dart';
@@ -46,6 +48,11 @@ class AuthRepository {
       );
 
       if (!response.success) {
+        await _handleEmailVerificationError(
+          response.message,
+          response.errors,
+          email,
+        );
         throw Exception(response.message);
       }
 
@@ -58,10 +65,89 @@ class AuthRepository {
       }
 
       return response;
+    } on dio.DioException catch (e, stackTrace) {
+      if (e.response?.statusCode == 401) {
+        final responseData = e.response?.data;
+        final message = responseData is Map<String, dynamic>
+            ? (responseData['message'] as String? ?? '')
+            : '';
+        List<ErrorModel>? errors;
+        if (responseData is Map<String, dynamic> &&
+            responseData['errors'] is List) {
+          errors = (responseData['errors'] as List)
+              .map((e) => ErrorModel.fromJson(e as Map<String, dynamic>))
+              .toList();
+        }
+
+        await _handleEmailVerificationError(message, errors, email);
+      }
+
+      AppLogger.error('Login repository error', e, stackTrace);
+      rethrow;
     } catch (e, stackTrace) {
+      if (e is EmailVerificationRequiredException) {
+        rethrow;
+      }
       AppLogger.error('Login repository error', e, stackTrace);
       rethrow;
     }
+  }
+
+  /// Check if error is about email verification and resend OTP if needed
+  Future<void> _handleEmailVerificationError(
+    String message,
+    List<ErrorModel>? errors,
+    String email,
+  ) async {
+    if (!_isEmailVerificationError(message, errors)) {
+      return;
+    }
+
+    final otpResentSuccessfully = await _resendOtpSilently(email);
+    if (otpResentSuccessfully) {
+      throw EmailVerificationRequiredException(
+        message: message.isNotEmpty
+            ? message
+            : 'Please verify your email before logging in',
+        email: email,
+      );
+    }
+  }
+
+  /// Check if error indicates email verification is required
+  bool _isEmailVerificationError(String message, List<ErrorModel>? errors) {
+    final verificationMessage = 'please verify your email before logging in';
+    final messageContainsVerification = message.toLowerCase().contains(
+      verificationMessage,
+    );
+
+    if (messageContainsVerification) {
+      return true;
+    }
+
+    return errors?.any(
+          (error) =>
+              error.message.toLowerCase().contains(verificationMessage) ||
+              error.field == 'email',
+        ) ??
+        false;
+  }
+
+  /// Silently resend OTP and return success status
+  Future<bool> _resendOtpSilently(String email) async {
+    try {
+      final response = await _apiService.resendOtp(
+        email: email,
+        type: 'emailVerification',
+      );
+      if (response.success) {
+        AppLogger.info('OTP resent successfully for email verification');
+        return true;
+      }
+    } catch (e) {
+      AppLogger.warning('Failed to resend OTP silently');
+    }
+    return false;
   }
 
   // Guest Login

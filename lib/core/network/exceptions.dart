@@ -24,3 +24,11 @@ class UnknownException extends AppException {
   UnknownException(String message) : super(message: message);
 }
 
+class EmailVerificationRequiredException extends AppException {
+  final String email;
+
+  EmailVerificationRequiredException({
+    required String message,
+    required this.email,
+  }) : super(message: message);
+}

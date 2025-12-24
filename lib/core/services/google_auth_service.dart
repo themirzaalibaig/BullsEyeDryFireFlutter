@@ -28,7 +28,7 @@ class GoogleAuthService extends GetxService {
 
         // Get Google authentication credentials
         final GoogleSignInAuthentication googleAuth =
-            await account.authentication;
+            account.authentication;
         final String? googleIdToken = googleAuth.idToken;
 
         if (googleIdToken == null) {

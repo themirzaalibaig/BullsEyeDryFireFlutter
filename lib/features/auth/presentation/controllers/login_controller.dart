@@ -4,6 +4,7 @@ import '../../../../core/services/google_auth_service.dart';
 import '../../../../core/utils/logger.dart';
 import '../../../../core/utils/error_handler.dart';
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/network/exceptions.dart';
 import '../../data/repositories/auth_repository.dart';
 import '../../data/models/auth_response_model.dart';
 
@@ -72,6 +73,15 @@ class LoginController extends GetxController {
           errors: response.errors?.map((e) => e.toJson()).toList(),
         );
       }
+    } on EmailVerificationRequiredException catch (e) {
+      // Redirect to OTP verification page if OTP was resent successfully
+      AppLogger.info('Redirecting to OTP verification for email: ${e.email}');
+      Get.toNamed(
+        AppConstants.otpVerificationRoute,
+        arguments: {'email': e.email, 'type': 'emailVerification'},
+      );
+      // Show the error message
+      ErrorHandler.handleError(e.message, showSnackbar: true);
     } catch (e, stackTrace) {
       AppLogger.error('Login error', e, stackTrace);
       ErrorHandler.handleError(
