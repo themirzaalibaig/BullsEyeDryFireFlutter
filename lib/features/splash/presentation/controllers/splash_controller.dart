@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/utils/logger.dart';
+import '../../../../core/services/token_service.dart';
 
 class SplashController extends GetxController {
   @override
@@ -13,17 +14,30 @@ class SplashController extends GetxController {
   void onReady() {
     super.onReady();
     AppLogger.info('SplashController ready, starting navigation timer');
-    _navigateToHome();
+    _navigateToNextScreen();
   }
 
-  void _navigateToHome() {
-    Future.delayed(const Duration(seconds: AppConstants.splashDuration), () {
-      AppLogger.info('Navigating to language: ${AppConstants.languageRoute}');
+  Future<void> _navigateToNextScreen() async {
+    // Wait for splash duration
+    await Future.delayed(const Duration(seconds: AppConstants.splashDuration));
 
-      // Use offAllNamed to clear the navigation stack and go to language selection
-      // This removes all previous routes and navigates to the language route
+    try {
+      // Check if user is authenticated
+      final isAuthenticated = await TokenService.to.isAuthenticated();
+
+      if (isAuthenticated) {
+        AppLogger.info('User is authenticated, navigating to home');
+        // User is logged in, redirect to home
+        Get.offAllNamed(AppConstants.homeRoute);
+      } else {
+        AppLogger.info('User is not authenticated, navigating to language selection');
+        // User is not logged in, redirect to language selection
+        Get.offAllNamed(AppConstants.languageRoute);
+      }
+    } catch (e, stackTrace) {
+      AppLogger.error('Error checking authentication status', e, stackTrace);
+      // On error, default to language selection
       Get.offAllNamed(AppConstants.languageRoute);
-      AppLogger.info('Navigation command executed');
-    });
+    }
   }
 }
